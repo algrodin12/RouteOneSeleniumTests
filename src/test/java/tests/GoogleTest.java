@@ -38,7 +38,7 @@ public class GoogleTest {
 	        driver.get("https://www.google.com");
 
 	        //Wait for Google Page to Load
-	        objGoogleSearch.waitForPageToLoad("viewport");
+	        objGoogleSearch.waitForPageToLoadByXpath("//form[@action='/search']");
 	        
 	        //Verify Google Home Page
 	        objGoogleSearch.verifyGoogleHomePage();
@@ -47,10 +47,10 @@ public class GoogleTest {
 		    objGoogleSearch.setInputValue("RouteOne");
 
 		    //Wait for results to load
-	        objGoogleSearch.waitForPageToLoad("rhscol");
+	        objGoogleSearch.waitForPageToLoadById("rcnt");
 	        
 	        //loop through results on first page for www.routeone.com and click it
-	        objGoogleSearch.selectGoogleResult("https://www.routeone.com/"); 
+	        objGoogleSearch.selectGoogleResult("https://www.routeone.com"); 
 	        
 	        //Create RouteOne Page object
 	        objRouteOne = new RouteOnePage(driver);
@@ -65,6 +65,6 @@ public class GoogleTest {
 		@AfterMethod
 		public void afterTest() 
 		{
-			driver.quit();			
+			//driver.quit();			
 		}		
 }

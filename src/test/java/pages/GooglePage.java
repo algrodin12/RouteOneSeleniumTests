@@ -18,11 +18,18 @@ public class GooglePage {
         this.driver = driver;
     }
     
-    //Wait for Google Page to Load
-    public void waitForPageToLoad(String pageId)
+    //Wait for Google Page to Load by xpath
+    public void waitForPageToLoadByXpath(String path)
     {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(pageId)));
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(path)));
+    }
+    
+  //Wait for Google Page to Load by id
+    public void waitForPageToLoadById(String id)
+    {
+        WebDriverWait wait = new WebDriverWait(driver, 1000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(id)));
     }
 
     //Set input value of google search & enter
@@ -34,18 +41,15 @@ public class GooglePage {
     
     //verify Google Home Page
     public void verifyGoogleHomePage()
-    {
-	    //Verify Google Logo is displayed
-        Assert.assertTrue(driver.findElement(By.id("hplogo")).isDisplayed());
-        
-        //Verify Google Logo
-	    Assert.assertEquals(driver.findElement(By.tagName("img")).getAttribute("alt"), "Google");
-	    
+    {   
+    	//Verify Page Title
+	    Assert.assertTrue(driver.getTitle().equals("Google"));
+    	
 	    //Verify Google Search Bar is Displayed
 	    Assert.assertTrue(driver.findElement(By.xpath("//input[@title='Search']")).isDisplayed());
     }
 
-    //Loop through 1st page of results to find matching link
+  //Loop through 1st page of results to find matching link
     public void selectGoogleResult(String googleResultLink)
     {
     	//Google Results
@@ -54,11 +58,11 @@ public class GooglePage {
     	
     	//For loop through Google Results
     	for (WebElement result : results) 
-    	{
+    	{				
     		//If a result has a matching link, click on link
-			if (result.findElement(By.cssSelector("div > div.rc > div.r > a")).getAttribute("href").contains(googleResultLink)) 
+			if (result.findElement(By.cssSelector("div > div > div > div > a > div > cite")).getText().contains(googleResultLink)) 
 			{
-				result.findElement(By.cssSelector("div > div.rc > div.r > a > h3")).click();
+				result.findElement(By.cssSelector("div > div > div > div > a")).click();
 				break;
 			}
 			//If a result does not have a matching link, return message

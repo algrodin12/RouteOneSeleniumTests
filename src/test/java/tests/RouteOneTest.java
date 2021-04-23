@@ -70,7 +70,7 @@ public class RouteOneTest {
 	        objRouteOne.waitForPageToLoad("current-openings-content");	        
 
 	        //Verify number of job openings, position, country
-	        objRouteOne.verifyJobOpenings("Software Developer in Test", "US");
+	        objRouteOne.verifyJobOpenings("Software Test Engineer", "US", 5);
 		}	
 		
 		@AfterMethod

@@ -102,24 +102,22 @@ public class RouteOnePage {
     }
     
     //Verify Job Opening Results
-    public void verifyJobOpenings(String jobName, String jobCountry)
+    public void verifyJobOpenings(String jobName, String jobCountry, Integer jobSize)
     {
     	WebElement jobOpenings = driver.findElement(By.className("current-openings-list"));
     	List<WebElement> jobs = jobOpenings.findElements(By.className("current-openings-item"));
     	
-    	//Get the Number of Results String
-    	String numOfJobResults = driver.findElement(By.className("vdl-tile__title")).getText();
-    	//Get only the Number from the String & get rid of parentheses
-    	numOfJobResults = numOfJobResults.substring(numOfJobResults.length()-2).replace("(", "").replace(")", "");
-    	//Verify the number of job opening results matches the number of results string 
-    	Assert.assertTrue(Integer.valueOf(numOfJobResults).equals(jobs.size()));
+    	//Verify the number of job opening results
+    	Assert.assertTrue(Integer.valueOf(jobs.size()).equals(jobSize));
     	
     	for (WebElement job : jobs) 
     	{
     		//Verify Job Name
-    		Assert.assertTrue(job.findElement(By.tagName("span")).getText().contains(jobName));
-    		//Verify Job Country
-    		Assert.assertTrue(job.findElement(By.cssSelector(".current-opening-locations > .current-opening-location-item")).getText().contains(jobCountry));
+    		if (job.findElement(By.cssSelector(".current-openings-details > span")).getText().contentEquals(jobName)) {
+	    		Assert.assertTrue(job.findElement(By.cssSelector(".current-openings-details > span")).getText().contains(jobName));
+	    		//Verify Job Country
+	    		Assert.assertTrue(job.findElement(By.cssSelector(".current-opening-locations > .location-row > .current-opening-location-item > span")).getText().contains(jobCountry));
+    		}
     	}
     }
     
